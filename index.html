@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>BP 344: Accessibility Law</title>
+    <!-- TailwindCSS CDN for streamlined styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter for modern readability -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        /* custom overrides and fine-tuning */
+        * {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #f1f5f9;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Custom scrollbar for sidebar */
+        .custom-scroll::-webkit-scrollbar {
+            width: 5px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #00c6d4;
+            border-radius: 10px;
+        }
+
+        /* Smooth transitions for list items */
+        .nav-item {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .nav-item:hover {
+            background-color: #e6f7f9;
+            transform: translateX(2px);
+        }
+        .nav-item.active {
+            background-color: #1e90ff !important;
+            color: white !important;
+            box-shadow: 0 2px 6px rgba(0,198,212,0.3);
+            font-weight: 600;
+        }
+        .section-label {
+            letter-spacing: 0.03em;
+            border-left: 3px solid #00c6d4;
+            padding-left: 12px;
+        }
+        /* iframe container soft edge */
+        .content-pane {
+            background: #fefefe;
+            border-radius: 0;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
+        }
+        /* empty state animation */
+        .empty-card {
+            transition: all 0.2s;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER - vibrant teal consistent with original design -->
+    <div class="bg-[#00c6d4] text-white shadow-md sticky top-0 z-10">
+        <div class="flex items-center justify-between px-5 py-3 md:py-3.5">
+            <div class="flex items-center gap-4">
+                <!-- back / refresh button (reload page) -->
+                <button onclick="window.location.reload()" class="p-2 rounded-full hover:bg-white/20 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/50" aria-label="Refresh page">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                </button>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold tracking-tight">BP 344: Accessibility Law</h1>
+                    <p class="text-xs text-white/80 hidden sm:block">Philippine Accessibility Law — Standards & Requirements</p>
+                </div>
+            </div>
+            <div class="text-sm hidden md:block bg-white/20 px-3 py-1 rounded-full">
+                <span>📋 Batas Pambansa Bilang 344</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN LAYOUT: Sidebar (1/5 on desktop, but exactly 288px width on wide, responsive) + Content area -->
+    <div class="flex h-[calc(100vh-68px)] overflow-hidden">
+        
+        <!-- SIDEBAR (fixed width 280px on large, flexible on small but with absolute? Better: w-72 md:w-80 lg:w-[280px] flexible) 
+        but we want about 1/5 proportion. using class: w-full md:w-80 xl:w-[280px] 2xl:w-[300px] -->
+        <aside class="bg-white border-r border-slate-200 flex flex-col shadow-sm w-full md:w-80 xl:w-[280px] 2xl:w-[320px] overflow-hidden">
+            <!-- header inside sidebar for "Categories" subtle -->
+            <div class="px-5 pt-5 pb-2 border-b border-slate-100">
+                <div class="flex items-center gap-2 text-slate-500 text-xs font-semibold uppercase tracking-wider">
+                    <span>📌</span> <span>Accessibility guidelines</span>
+                </div>
+            </div>
+            <!-- Scrollable list container -->
+            <div class="flex-1 overflow-y-auto custom-scroll py-2" id="sidebar-scroll">
+                <!-- dynamic menu will be built from javascript based on the structured data (replacing static HTML) -->
+                <div id="dynamic-menu-container" class="px-2 pb-6">
+                    <!-- Menu injected via JS to follow new template format & maintain categories -->
+                </div>
+            </div>
+            <div class="border-t border-slate-100 px-4 py-3 text-xs text-slate-400 text-center">
+                <span>♿ BP 344 • Minimum requirements</span>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA (takes remaining width) -->
+        <main class="flex-1 bg-[#f8fafc] overflow-hidden relative">
+            <!-- iframe viewer -->
+            <iframe id="content-viewer" name="viewer" class="w-full h-full border-0 bg-white shadow-inner" title="Accessibility detail viewer"></iframe>
+            
+            <!-- Empty state overlay (hidden when content loads) -->
+            <div id="emptyStateOverlay" class="absolute inset-0 flex items-center justify-center bg-[#f8fafc] backdrop-blur-sm transition-opacity pointer-events-none" style="z-index: 5;">
+                <div class="text-center max-w-sm p-6 bg-white rounded-2xl shadow-xl empty-card">
+                    <div class="text-7xl mb-4">♿</div>
+                    <h3 class="text-2xl font-semibold text-slate-800 mb-2">Accessibility Reference</h3>
+                    <p class="text-slate-500 text-sm mb-5">Select any provision from the left menu to view detailed specifications, diagrams, and compliance notes based on BP 344.</p>
+                    <div class="w-16 h-1 bg-[#00c6d4] rounded-full mx-auto"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // --------------------------------------------------------------
+        // MENU DATA STRUCTURE (matches original categories & new template naming)
+        // All href values follow the pattern: "accessible-entrance-vizcode.html" style.
+        // Based on your target "new template" example: 
+        // <a href="accessible-entrance-vizcode.html" target="viewer"> Accessible Entrance</a>
+        // We create each link with proper target="viewer", and the iframe name="viewer" will catch them.
+        // Additionally we maintain active state, empty state hiding.
+        // --------------------------------------------------------------
+        
+        // Mapping from original descriptive file names to clean template filenames as per provided pattern.
+        // Since the user said: "FIT THIS NEW TEMPLATE: TO THE LINKSSS: <a href='accessible-entrance-vizcode.html' target='viewer'>"
+        // We convert required items to those slug-like names (kebab-case + -vizcode.html). I'll produce consistent URLs.
+        // For the extensive list, we generate meaningful slugs. To preserve functionality offline, we assume the HTML files exist 
+        // in same directory (or relative path). If needed, user can adjust base path.
+        
+        // Define the menu categories and items with proper href (according to new template)
+        // Based on original list but using clean file naming convention (lowercase, hyphens, '-vizcode.html')
+        const menuStructure = [
+            {
+                category: "GENERAL PROVISIONS",
+                items: [
+                    { label: "Wheelchair", href: "wheelchair-vizcode.html" },
+                    { label: "Wheelchair Seating Space", href: "wheelchair-seating-space-vizcode.html" },
+                    { label: "Ramps", href: "ramps-vizcode.html" },
+                    { label: "Ground Surfaces", href: "ground-surfaces-vizcode.html" },
+                    { label: "Handrails and Grab Bars", href: "handrails-and-grab-bars-vizcode.html" },
+                    { label: "Parking", href: "parking-vizcode.html" },
+                    { label: "Signage", href: "signage-vizcode.html" },
+                    { label: "Tactile Floor Surfaces", href: "tactile-floor-surfaces-vizcode.html" },
+                    { label: "Stairs", href: "stairs-vizcode.html" },
+                    { label: "Lighting and Illumination", href: "lighting-and-illumination-vizcode.html" },
+                    { label: "Protection on Low Headroom Clearance", href: "protection-low-headroom-vizcode.html" },
+                    { label: "Protrusions", href: "protrusions-vizcode.html" }
+                ]
+            },
+            {
+                category: "OUTSIDE AND AROUND BUILDINGS",
+                items: [
+                    { label: "Dropped Sidewalks", href: "dropped-sidewalks-vizcode.html" },
+                    { label: "Curb Ramps", href: "curb-ramps-vizcode.html" },
+                    { label: "Pathways, Sidewalks, Walkways", href: "pathways-sidewalks-vizcode.html" },
+                    { label: "Open Spaces", href: "open-spaces-vizcode.html" },
+                    { label: "Crossings", href: "crossings-vizcode.html" },
+                    { label: "Bollards", href: "bollards-vizcode.html" }
+                ]
+            },
+            {
+                category: "INSIDE BUILDINGS",
+                items: [
+                    { label: "Accessible Entrance", href: "accessible-entrance-vizcode.html" },
+                    { label: "Doors", href: "doors-vizcode.html" },
+                    { label: "Threshold", href: "threshold-vizcode.html" },
+                    { label: "Switches", href: "switches-vizcode.html" },
+                    { label: "Corridors", href: "corridors-vizcode.html" },
+                    { label: "Toilets and Baths", href: "toilets-baths-vizcode.html" },
+                    { label: "Toilets and Baths: Door", href: "toilets-baths-door-vizcode.html" },
+                    { label: "Toilets and Baths: Water Closet", href: "toilets-water-closet-vizcode.html" },
+                    { label: "Toilets and Baths: Grab Bars for Water Closets", href: "toilets-grab-bars-vizcode.html" },
+                    { label: "Toilets and Baths: Accessories and Controls", href: "toilets-accessories-vizcode.html" },
+                    { label: "Toilets and Baths: Lavatory", href: "toilets-lavatory-vizcode.html" },
+                    { label: "Toilets and Baths: Urinal", href: "toilets-urinal-vizcode.html" },
+                    { label: "Toilets and Baths: Shower and Bathtubs", href: "toilets-shower-vizcode.html" },
+                    { label: "Changing Places", href: "changing-places-vizcode.html" },
+                    { label: "Elevators", href: "elevators-vizcode.html" },
+                    { label: "Platform Lifts", href: "platform-lifts-vizcode.html" },
+                    { label: "Wheelchair Lifts", href: "wheelchair-lifts-vizcode.html" },
+                    { label: "Escalators", href: "escalators-vizcode.html" },
+                    { label: "Public Telephones", href: "public-telephones-vizcode.html" },
+                    { label: "ATM", href: "atm-vizcode.html" },
+                    { label: "Dressing Rooms", href: "dressing-rooms-vizcode.html" },
+                    { label: "Ticket / Information Desks", href: "ticket-desks-vizcode.html" },
+                    { label: "Workstation", href: "workstation-vizcode.html" },
+                    { label: "Restaurants", href: "restaurants-vizcode.html" },
+                    { label: "Transient Lodging Facilities", href: "transient-lodging-vizcode.html" },
+                    { label: "Waiting Room and Rest Areas", href: "waiting-rooms-vizcode.html" },
+                    { label: "Drinking Water Facilities", href: "drinking-water-vizcode.html" },
+                    { label: "Sensory Rooms", href: "sensory-rooms-vizcode.html" },
+                    { label: "Service Animal Provisions", href: "service-animal-vizcode.html" }
+                ]
+            },
+            {
+                category: "SAFETY",
+                items: [
+                    { label: "Fencing for Excavations on Roads and Sidewalks", href: "fencing-excavations-vizcode.html" },
+                    { label: "Covers for Excavations", href: "covers-excavations-vizcode.html" },
+                    { label: "Areas of Refuge", href: "areas-refuge-vizcode.html" },
+                    { label: "Audio, Visual, Vibrating Fire Alarm Systems", href: "fire-alarm-systems-vizcode.html" }
+                ]
+            },
+            {
+                category: "SPECIAL TYPE OF FACILITIES",
+                items: [
+                    { label: "Swimming Pools: Transfer Walls", href: "swimming-pools-transfer-vizcode.html" },
+                    { label: "Spas", href: "spas-vizcode.html" },
+                    { label: "Sports Facilities", href: "sports-facilities-vizcode.html" },
+                    { label: "Auditoriums, Arenas, Theaters, and other Assembly", href: "assembly-venues-vizcode.html" },
+                    { label: "Transportation Facilities", href: "transportation-facilities-vizcode.html" }
+                ]
+            }
+        ];
+
+        // Helper to generate slug from label if needed but we already set href manually.
+        // Ensure the iframe target and naming.
+        
+        // Get DOM elements
+        const iframe = document.getElementById('content-viewer');
+        const emptyOverlay = document.getElementById('emptyStateOverlay');
+        const menuContainer = document.getElementById('dynamic-menu-container');
+        
+        // Function to hide empty state (when any link is clicked)
+        function hideEmptyState() {
+            if (emptyOverlay) {
+                emptyOverlay.style.opacity = '0';
+                // After transition, set display none to allow clicks through, but keep invisible
+                setTimeout(() => {
+                    emptyOverlay.style.display = 'none';
+                }, 200);
+            }
+        }
+        
+        // Initially empty overlay is visible. If user loads a specific hash maybe? fine.
+        // Function to set active menu item based on current iframe src
+        function setActiveMenuItem(activeHref) {
+            const allNavItems = document.querySelectorAll('.nav-item');
+            allNavItems.forEach(item => {
+                const itemHref = item.getAttribute('data-href');
+                if (itemHref === activeHref) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+        
+        // Build the sidebar menu dynamically using anchors that target the iframe (name="viewer")
+        // We use the exact anchor tags, but style them as block elements to look consistent.
+        function buildMenu() {
+            if (!menuContainer) return;
+            let html = '';
+            for (let section of menuStructure) {
+                // category header
+                html += `
+                    <div class="mt-5 mb-1.5 px-3">
+                        <div class="text-[11px] font-bold uppercase tracking-wider text-slate-500 section-label flex items-center gap-1.5">
+                            <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#00c6d4]"></span>
+                            ${escapeHtml(section.category)}
+                        </div>
+                    </div>
+                `;
+                // items list as anchor links with target="viewer"
+                for (let item of section.items) {
+                    // store the href in data attribute for active handling
+                    html += `
+                        <a href="${escapeHtml(item.href)}"
+                           target="viewer"
+                           data-href="${escapeHtml(item.href)}"
+                           class="nav-item flex items-center gap-2.5 px-4 py-2.5 mx-2 my-1 rounded-lg text-slate-700 text-sm font-medium transition-all duration-150">
+                            <svg class="w-4 h-4 text-[#00c6d4] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+                            <span>${escapeHtml(item.label)}</span>
+                        </a>
+                    `;
+                }
+            }
+            menuContainer.innerHTML = html;
+            
+            // attach event listeners to each anchor after creation (to handle hideEmptyState & active class)
+            const anchors = document.querySelectorAll('.nav-item');
+            anchors.forEach(anchor => {
+                anchor.addEventListener('click', (e) => {
+                    // prevent default to control iframe loading? we want default behavior but also track active.
+                    // we will let the default click load iframe with target viewer.
+                    // BUT we also need to remove empty overlay, update active class and may store.
+                    const href = anchor.getAttribute('href');
+                    if (href) {
+                        // hide empty state
+                        hideEmptyState();
+                        // set active class on click
+                        setActiveMenuItem(href);
+                        // load iframe (default behavior will fire because anchor target='viewer' and we didn't preventDefault)
+                        // However we can also manually set iframe src to ensure consistency.
+                        iframe.src = href;
+                        e.preventDefault();  // prevent double navigation? Actually we need to set iframe src manually because default would work but we handle it.
+                        iframe.src = href;
+                        // update browser URL? optionally keep, not needed.
+                    } else {
+                        e.preventDefault();
+                    }
+                });
+            });
+            
+            // Also watch for iframe load event to sync active link in case of external triggers maybe?
+            iframe.addEventListener('load', function() {
+                const currentSrc = iframe.src;
+                if (currentSrc && currentSrc !== 'about:blank') {
+                    // extract relative path from full URL
+                    let path = currentSrc;
+                    try {
+                        const urlObj = new URL(currentSrc);
+                        path = urlObj.pathname.split('/').pop();
+                    } catch(e) { path = currentSrc.split('/').pop(); }
+                    // check if any nav-item has href = path (or ends with)
+                    const allLinks = document.querySelectorAll('.nav-item');
+                    let matched = false;
+                    allLinks.forEach(link => {
+                        const linkHref = link.getAttribute('href');
+                        if (linkHref && (currentSrc.includes(linkHref) || (path === linkHref))) {
+                            setActiveMenuItem(linkHref);
+                            matched = true;
+                        }
+                    });
+                    if (!matched && allLinks.length === 0) {} 
+                    // hide empty state when iframe loads something meaningful
+                    if (currentSrc && !currentSrc.includes('about:blank')) {
+                        hideEmptyState();
+                    }
+                }
+            });
+            
+            // initial empty state: handle iframe blank
+            if (iframe.src === '' || iframe.src === 'about:blank') {
+                emptyOverlay.style.display = 'flex';
+            } else {
+                hideEmptyState();
+            }
+        }
+        
+        // simple escape to avoid XSS
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+                return c;
+            });
+        }
+        
+        // detect first load / optional handling: if user clicks on any default item? not needed.
+        // Prevent empty state flickering
+        function init() {
+            buildMenu();
+            // if a default item should be pre-selected? no but we keep empty state and sidebar interactive.
+            // For making the first item maybe not force but provide welcoming message.
+            // also handle if any anchor has additional query.
+            console.log('BP 344 Accessibility Menu Loaded — using template naming: *-vizcode.html');
+        }
+        
+        // Sidebar & resizer safeguard for iframe security: some local files may have CORS? but if all html locally it's fine.
+        // Additionally provide a fallback for missing files: show error message inside iframe? domain trust local.
+        init();
+        
+        // Function to manually open first item if needed? but better keep empty state so user selects.
+        // Additionally, ensure that overlay disappears after any successful click
+        window.addEventListener('load', () => {
+            // if user wants to auto load something? keep as is
+            if (iframe.src === '' || iframe.src === 'about:blank') {
+                emptyOverlay.style.display = 'flex';
+            } else {
+                emptyOverlay.style.display = 'none';
+            }
+        });
+        
+        // for correct viewport adjustments, ensure that iframe doesn't overflow
+        iframe.addEventListener('error', (e) => {
+            // in case the html file doesn't exist, we could display fallback inside iframe? but user can prepare files
+            console.warn('Iframe failed to load: ensure all -vizcode.html files exist alongside this index');
+        });
+        
+        // Extra: provide refresh option consistency: reload page clears active, resets empty state
+        // Also we may provide a helper to handle direct match of classes after reload with no stored state.
+    </script>
+</body>
+</html>
