@@ -1,0 +1,71 @@
+jQuery(document).ready(function($) {
+    // Register GSAP
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Search Bar Variables
+    const $header      = $('.vc-header');
+    const $openBtn     = $('.vc-search-open');
+    const $closeBtn    = $('.vc-search-close');
+    const $searchInput = $('.vc-search input[type="search"]');
+    const isQubiPage   = $('body').hasClass('page-id-10432'); // replace if needed
+
+    // Open search
+    $openBtn.on('click', function () {
+        $header.addClass('search-active');
+        $searchInput.trigger('focus');
+    });
+
+    // Close search
+    $closeBtn.on('click', function () {
+        $header.removeClass('search-active');
+    });
+
+    // Keyboard shortcuts
+    $(document).on('keydown', function (e) {
+        // "/" opens search (except on QUBI page and when typing in inputs)
+        if (
+            !isQubiPage &&
+            e.key === '/' &&
+            !$(e.target).is('input, textarea, [contenteditable="true"]')
+        ) {
+            e.preventDefault();
+            $header.addClass('search-active');
+            $searchInput.trigger('focus');
+        }
+
+        // ESC closes search
+        if (e.key === 'Escape') {
+            $header.removeClass('search-active');
+        }
+    });
+
+    // Menu Variables
+    const $mobileToggle   = $('.vc-mobile-menu-toggle');
+    const $mobileMenu     = $('.vc-mobile-menu-panel');
+    const $bodyOverlay    = $('.body-overlay');
+    const $body           = $('body');
+
+    // Toggle menu
+    $mobileToggle.on('click', function () {
+
+        const isOpen = !$mobileMenu.hasClass('open');
+
+        $mobileMenu.toggleClass('open', isOpen);
+        $mobileToggle.toggleClass('open', isOpen);
+        $body.toggleClass('mobile-menu-open', isOpen);
+        $bodyOverlay.toggleClass('open', isOpen);
+
+        $mobileToggle.attr('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    // Close when clicking overlay
+    $bodyOverlay.on('click', function () {
+        $mobileMenu.removeClass('open');
+        $mobileToggle.removeClass('open');
+        $body.removeClass('mobile-menu-open');
+        $bodyOverlay.removeClass('open');
+
+        $mobileToggle.attr('aria-expanded', 'false');
+    });
+
+});
