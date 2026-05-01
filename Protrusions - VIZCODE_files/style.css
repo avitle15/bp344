@@ -1,0 +1,640 @@
+/* 
+
+Theme Name: Hello VIZCODE Child
+
+Description: A custom theme that builds the Philippine Architectural Boards Review Platform called VIZCODE.
+
+Author: Andie Poblete
+
+Author URI: https://andiepoblete.com/
+
+Template: hello-elementor
+
+Version: 3.0.0
+
+Text Domain: hello-vizcode-child
+
+License: GNU General Public License v3 or later.
+
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
+
+*/
+
+* {
+	box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    transition:  all 300ms ease-in-out;
+    -o-transition: all 300ms ease-in-out;
+    transition-delay:0ms;
+    -o-transition-delay:0ms;
+    -moz-transition-delay:0ms;
+    -webkit-transition-delay:0ms;
+}
+
+:root {
+    color-scheme:light;
+
+    --vc_white:#F7F7F7;
+    --vc_concrete:#D3D3D3;
+    --vc_cement:#A7A7A7;
+    
+    --vc_box_shadow:0 0 18px 0 rgba(12,12,12,0.1);
+    --vc_box_shadow_light:0 0 18px 0 rgb(247, 247, 247,0.1);
+
+    --vc_black:#0C0C0C;
+    --vc_dark_100:#0C0C0C;
+    --vc_dark_200:#242424;
+    --vc_dark_300:#313131;
+    --vc_dark_400:#3E3E3E;
+    --vc_dark_500:#717171;
+    
+    --pd_1096_100:#FABBC9;
+    --pd_1096_200:#F486A2;
+    --pd_1096_300:#EF507A;
+    --pd_1096_400:#E91A52;
+    --pd_1096_500:#B61342;
+    --pd_1096_105:#EADADF;
+    --pd_1096_205:#E2B9C4;
+    --pd_1096_305:#D38199;
+    --pd_1096_405:#C44A6E;
+
+    --ra_9514_100:#FCD2AE;
+    --ra_9514_200:#F9B180;
+    --ra_9514_300:#F69151;
+    --ra_9514_400:#F37022;
+    --ra_9514_500:#BC5218;
+    --ra_9514_105:#EBE0DA;
+    --ra_9514_205:#E3C9BA;
+    --ra_9514_305:#D6A184;
+    --ra_9514_405:#C97A4E;
+
+    --bp_344_100:#B5FBFF;
+    --bp_344_200:#8CEEFF;
+    --bp_344_300:#50DCF4;
+    --bp_344_400:#00C9E8;
+    --bp_344_500:#0099CA;
+    --bp_344_105:#D8E7EC;
+    --bp_344_205:#B4DAE7;
+    --bp_344_305:#78C4DD;
+    --bp_344_405:#3CAFD4;
+
+    --bp_220_100:#FFF490;
+    --bp_220_200:#FFEA54;
+    --bp_220_300:#FFDD37;
+    --bp_220_400:#FFCD00;
+    --bp_220_500:#D5A600;
+    --bp_220_600:#d5a600;
+    --bp_220_105:#EDE9D8;
+    --bp_220_205:#E9DEB4;
+    --bp_220_305:#E3CB78;
+    --bp_220_405:#DCB93C;
+
+    --pd_957_100:#DFBAEA;
+    --pd_957_200:#CC8EDF;
+    --pd_957_300:#AD5CC8;
+    --pd_957_400:#9A3BBB;
+    --pd_957_500:#72338C;
+    --pd_957_105:#E3DDE6;
+    --pd_957_205:#D1C1D7;
+    --pd_957_305:#B192BE;
+    --pd_957_405:#9162A5;
+
+    --gbc_100:#C1FFCD;
+    --gbc_200:#A1E7AA;
+    --gbc_300:#72CE79;
+    --gbc_400:#42B649;
+    --gbc_500:#318A35;
+    --gbc_105:#DDE6DD;
+    --gbc_205:#C0D7C1;
+    --gbc_305:#91BD93;
+    --gbc_405:#61A364;
+}
+
+@font-face {
+    font-family: 'Aspekta';
+    font-weight: 100 900;
+    font-display: swap;
+    font-style: normal;
+    src: url('/wp-content/themes/hello-vizcode/assets/fonts/AspektaVF.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('/wp-content/themes/hello-vizcode/assets/fonts/InterVF.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+html {
+	font-size:14px;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	font-family:"Aspekta", sans-serif;
+}
+
+p {
+	font-family:"Inter", sans-serif;
+    font-weight:400;
+}
+
+body {
+    color:light-dark(var(--vc_black),var(--vc_white));
+    background:light-dark(#FAFAFA, var(--vc_dark_200));
+    position:relative;
+}
+
+body.no-scroll {
+    overflow: hidden;
+}
+
+
+.popup-overlay{
+    display:none;
+    width:100vw;
+    height:100vh;
+    background:var(--vc_black);
+    opacity:0;
+    position:absolute;
+    top:0;
+    z-index:-9999;
+}
+
+.popup-overlay.open{
+    display:block;
+    opacity:0.3;
+    z-index:9;
+}
+
+.popup-overlay.open:hover{
+    cursor:pointer;
+}
+
+.btn {
+    display:block;
+    color:light-dark(var(--vc_white),var(--vc_black));
+    background:light-dark(var(--vc_dark_100),var(--vc_white));
+    border-color:light-dark(var(--vc_dark_100),var(--vc_white));
+    border-radius:4px;
+    border-width:1.5px;
+    font-weight:600;
+    padding:7px 14px;
+}
+
+.btn:hover{
+    color:light-dark(var(--vc_dark_100),var(--vc_white));
+    background:light-dark(var(--vc_white),var(--vc_dark_200));
+}
+
+@media (prefers-color-scheme: dark) {
+    .popup-overlay.open{
+        opacity:0.7;
+    }
+}
+
+/* ========================================================================== */
+/*  WOOCOMMERCE OVERRIDES
+/* ========================================================================== */
+
+.woocommerce-account .woocommerce {
+	display: flex;
+	width: 100%;
+	max-width:1280px;
+	padding:60px 30px;
+	flex-direction: column;
+	align-items: center;
+	margin: 0 auto;
+	font-family:"Aspekta","Inter",sans-serif;
+	min-height: calc(100vh - 100px);
+}
+
+.woocommerce-account p {
+	font-family:"Aspekta","Inter",sans-serif;
+}
+
+.woocommerce-account p:last-child{
+	margin-bottom:0;
+}
+
+.woocommerce-account .my-account-container {
+	width:100%;
+	display:flex;
+	gap:30px;
+	font-family:"Aspekta","Inter",sans-serif;
+}
+
+.woocommerce-account .my-account-container form label,
+.woocommerce-account .my-account-container button,
+.woocommerce-account .my-account-container input{
+	font-family:"Aspekta","Inter",sans-serif!important;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content {
+	margin:0;
+	display:flex;
+	flex-direction:column;
+	height:100%;
+	padding:0;
+	width:100%;
+}
+
+/* My Account Navigation */
+.woocommerce-account .my-account-navigation-container {
+	display:flex;
+	gap:0;
+	background:#FFFFFF;
+	border-radius:16px;
+	box-shadow:0 0 30px 0 rgba(0,0,0,0.15);
+	display:flex;
+	flex-direction:column;
+	overflow:hidden;
+	border:1px solid #D3D3D3;
+	height:fit-content;
+	width:25%;
+	min-width:300px;
+}
+
+.woocommerce-account .at-a-glance{
+	background:#FFFFFF;
+	display:flex;
+	gap:10px;
+	width:100%;
+	flex-direction:column;
+	align-items:flex-start;
+	padding:20px;
+	text-align:left;
+	border-bottom:1px solid rgba(0,0,0,0.08);
+}
+
+.woocommerce-account .at-a-glance .user-avatar {
+	border-radius:12px;
+	overflow:hidden;
+	aspect-ratio:1/1;
+}
+
+.woocommerce-account .at-a-glance .user-avatar img {
+	aspect-ratio:1/1;
+	object-fit:cover;
+	max-width:96px;
+	max-height:96px;
+}
+
+.woocommerce-account .at-a-glance .user-info{
+	display:flex;
+	flex-direction:column;
+	gap:0;
+}
+
+.woocommerce-account .at-a-glance .user-name {
+	font-weight:bold;
+	font-size:1.5em;
+}
+
+.woocommerce-account .at-a-glance .user-subscription-info {
+	color:#939393;
+	font-size:0.875em;
+}
+
+
+.woocommerce-account .at-a-glance .user-team-role {
+	text-transform:capitalize;
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation {
+	width: 100%;
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation ul {
+	list-style:none;
+	margin:0;
+	padding:0;
+	width:100%;
+	display:flex;
+	flex-direction:column;
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation ul li {
+	display:flex;
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation ul li a{
+	padding:15px;
+	color:#9E9E9E;
+	width:100%;
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation ul li:hover a{
+	background:rgba(0,0,0,0.05);
+	cursor:pointer;
+	color:#242424;
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation ul li.is-active a{
+	background:rgba(0,0,0,0.08);
+	color:#242424;
+	font-weight:bold;
+}
+
+li.woocommerce-MyAccount-navigation-link.woocommerce-MyAccount-navigation-link--dashboard {
+	order:1
+}
+li.woocommerce-MyAccount-navigation-link.woocommerce-MyAccount-navigation-link--edit-account {
+	order:2;
+}
+
+li.woocommerce-MyAccount-navigation-link.woocommerce-MyAccount-navigation-link--subscriptions{
+	order:3
+}
+
+li.woocommerce-MyAccount-navigation-link.woocommerce-MyAccount-navigation-link--ai-chat-credits{
+	order:4
+}
+
+li.woocommerce-MyAccount-navigation-link.woocommerce-MyAccount-navigation-link--orders{
+	order:5
+}
+
+li.woocommerce-MyAccount-navigation-link.woocommerce-MyAccount-navigation-link--teams {
+	order:6
+}
+li.woocommerce-MyAccount-navigation-link.woocommerce-MyAccount-navigation-link--edit-address {
+	order:7
+}
+li.woocommerce-MyAccount-navigation-link.woocommerce-MyAccount-navigation-link--customer-logout{
+	order:8
+}
+li.woocommerce-MyAccount-navigation-link.woocommerce-MyAccount-navigation-link--user-switching-switch-back{
+	order:9;
+}
+
+/* My Account Dashboard */
+.woocommerce-account .woocommerce-MyAccount-content {
+	width: 80%;
+}
+
+.woocommerce-account .dashboard-heading {
+	font-weight:bold;
+	font-size:1.5em;
+	line-height:1.25em;
+	margin-bottom:20px;
+}
+
+/* Announcements */
+.woocommerce-account .announcement-card,
+.woocommerce-account .mode-selector .card {
+	border:1px solid #D3D3D3;
+	border-radius:8px;
+	background:#F7F7F7;
+	display:flex;
+	width:100%;
+	padding:15px;
+	flex-direction:column;
+	text-align:center;
+	transition:all 300ms ease-in-out;
+}
+
+.woocommerce-account .announcement-title {
+	font-weight:600; 
+	font-size:1.25rem;
+}
+
+.woocommerce-account .announcement-date {
+	color:rgba(0,0,0,0.5); 
+	margin-bottom:15px;
+}
+
+.woocommerce-account .announcement-content p,
+.woocommerce-account .announcement-content ul {
+	margin-bottom:15px;
+}
+
+.woocommerce-account .announcement-content p:last-child,
+.woocommerce-account .announcement-content figure:last-child,
+.woocommerce-account .announcement-content ul:last-child{
+	margin-bottom:0;
+}
+
+.woocommerce-account .mode-selector {
+	display:flex;
+	flex-direction:row;
+	width:100%;
+	justify-content:space-between;
+	gap:15px;
+}
+
+/* Review Mode Selector */
+.woocommerce-account .card:hover{
+	box-shadow:0 0 15px 0 rgba(0,0,0,0.15);
+	cursor:pointer;
+}
+
+.woocommerce-account .mode-title {
+	font-weight:700;
+}
+
+.woocommerce-account .mode-desc{
+	margin-bottom:15px;
+}
+
+.woocommerce-account .code-list{
+	display:flex;
+	flex-direction:column;
+	gap:5px;
+	text-align:left;
+	font-size:12px;
+}
+
+.woocommerce-account a.code-list-item {
+	display:flex;
+	gap:5px;
+	align-items:center;
+	color:#242424;
+	font-weight:500
+}
+
+.woocommerce-account .code-list-item::before{
+	display:block;
+	content:'';
+	height:10px;
+	width:10px;
+	background:pink;
+	border-radius:2px;
+}
+
+.woocommerce-account .code-list-item.pd-1096::before{
+	background:var(--pd_1096_400);
+}
+
+.woocommerce-account .code-list-item.pd-957::before{
+	background:var(--pd_957_400);
+}
+
+.woocommerce-account .code-list-item.gbc::before{
+	background:var(--gbc_400);
+}
+
+.woocommerce-account .code-list-item.bp-220::before{
+	background:var(--bp_220_400);
+}
+
+.woocommerce-account .code-list-item.bp-344::before{
+	background:var(--bp_344_400);
+}
+
+.woocommerce-account .code-list-item.ra-9514::before{
+	background:var(--ra_9514_400);
+}
+
+.woocommerce-account .code-list-item.bp-220-pd-957::before {
+    background: #FFCD00;
+	background: linear-gradient(180deg, rgba(255, 205, 0, 1) 0%, rgba(154, 59, 187, 1) 100%);
+}
+
+.woocommerce-account .code-list-item.comparison::before {
+	background: #E91A52;
+	background: linear-gradient(180deg, rgba(233, 26, 82, 1) 0%, rgba(243, 112, 34, 1) 25%, rgba(255, 205, 0, 1) 50%, rgba(0, 201, 232, 1) 75%, rgba(154, 59, 187, 1) 100%);
+}
+
+.woocommerce-account a.code-list-item.pd-1096:hover{
+	color:var(--pd_1096_500)
+}
+
+.woocommerce-account a.code-list-item.pd-957:hover{
+	color:var(--pd_957_500)
+}
+
+.woocommerce-account a.code-list-item.ra-9514:hover{
+	color:var(--ra_9514_500)
+}
+
+.woocommerce-account a.code-list-item.bp-220:hover{
+	color:var(--bp_220_500)
+}
+
+.woocommerce-account a.code-list-item.bp-344:hover{
+	color:var(--bp_344_500)
+}
+
+.woocommerce-account a.code-list-item.gbc:hover{
+	color:var(--gbc_500)
+}
+
+.woocommerce-account .code-list-item.bp-220-pd-957:hover{
+	background-image: linear-gradient(90deg, #D5A600 0%, #72338C 100%);
+	background-clip: text;
+    -webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.woocommerce-account .code-list-item.comparison:hover {
+	background: linear-gradient(90deg, #B61342 0%,#D5A600 25%, #0099CA 50%, #72338C 100%);
+	background-clip: text;
+    -webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+/* Edit Account Details */
+.woocommerce-account .woocommerce-EditAccountForm.edit-account  .acf-image-uploader .image-wrap img {
+	aspect-ratio:1/1;
+	object-fit:cover;
+	max-width:96px!important;
+	max-height:96px!important;
+	border-radius:12px;
+	overflow:hidden;
+}
+
+.woocommerce-account .woocommerce-EditAccountForm.edit-account button[type="submit"].woocommerce-Button {
+	margin-top:20px;
+}
+
+.woocommerce-account .woocommerce-EditAccountForm.edit-account fieldset {
+	margin-top:15px;
+	margin-bottom:15px;
+}
+
+.woocommerce-account .woocommerce-EditAccountForm.edit-account .acf-fields>.acf-field {
+	border:none;
+	padding:8px 0 8px 16px;
+}
+
+.woocommerce-account .woocommerce-EditAccountForm.edit-account .acf-input input[type="text"]{
+	padding: .5em;
+}
+
+/* Subscriptions / My Review Plan */
+.woocommerce-account .my-account-container table {
+	border-radius:8px;
+}
+
+.woocommerce-account .my-account-container table.shop_table.subscription_details tr:first-child td:first-child,
+.woocommerce-account .my-account-container table.shop_table.order_details thead tr:first-child th:first-child,
+.woocommerce-account .my-account-container table.shop_table.my_account_orders thead tr:first-child th:first-child,
+.woocommerce-account .my-account-container table.shop_table.my_account_teams tr:first-child td:first-child{
+	border-top-left-radius:8px;
+}
+
+.woocommerce-account .my-account-container table.shop_table.subscription_details tr:first-child td:last-child,
+.woocommerce-account .my-account-container table.shop_table.order_details thead tr:first-child th:last-child,
+.woocommerce-account .my-account-container table.shop_table.my_account_orders thead tr:first-child th:last-child,
+.woocommerce-account .my-account-container table.shop_table.my_account_teams tr:first-child td:last-child{
+	border-top-right-radius:8px;
+}
+
+.woocommerce-account .my-account-container table.shop_table.subscription_details tr:last-child td:first-child,
+.woocommerce-account .my-account-container table.shop_table.order_details tfoot tr:last-child th:first-child,
+.woocommerce-account .my-account-container table.shop_table.my_account_orders tbody tr:last-child td:first-child{
+	border-bottom-left-radius:8px;
+}
+
+.woocommerce-account .my-account-container table.shop_table.subscription_details tr:last-child td:last-child,
+.woocommerce-account .my-account-container table.shop_table.order_details tfoot tr:last-child td:last-child,
+.woocommerce-account .my-account-container table.shop_table.my_account_orders tbody tr:last-child td:last-child{
+	border-bottom-right-radius:8px;
+}
+
+.woocommerce-account .my-account-container table.shop_table.subscription_details tr:first-child td,
+.woocommerce-account .my-account-container table.shop_table.my_account_teams tr:first-child td{
+border-top:1px solid hsla(0,0%,50%,.502);
+}
+
+.woocommerce-account .my-account-container .woocommerce-customer-details address{
+	border:1px solid #D3D3D3;
+	border-radius:8px;
+}
+
+/* TABLET / MOBILE */
+@media screen and (max-width:920px){
+	.woocommerce-account .my-account-navigation-container {
+		min-width:250px;
+	}
+	.woocommerce-account .mode-selector {
+		flex-direction: column;
+	}
+
+	.woocommerce-account .mode-selector .card {
+		text-align:left;
+	}
+}
+
+@media screen and (max-width:720px){
+	.woocommerce-account .woocommerce {
+		padding:30px 15px 15px 15px;
+	}
+
+	.woocommerce-account .my-account-container {
+		flex-direction:column;
+	}
+
+	.woocommerce-account .my-account-navigation-container {
+		width:100%;
+	}
+	.woocommerce-account .woocommerce-MyAccount-content {
+		width:100%;
+		padding:15px;
+	}
+}
+
