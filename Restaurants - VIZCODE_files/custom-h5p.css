@@ -1,0 +1,63 @@
+/*
+ * @font-face {
+    font-family: 'Aspekta';
+    font-weight: 100 900;
+    font-display: swap;
+    font-style: normal;
+    src: url('/wp-content/themes/hello-vizcode/assets/fonts/AspektaVF.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('/wp-content/themes/hello-vizcode/assets/fonts/InterVF.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+.h5p-content{
+	max-height:620px;
+	overflow:scroll;
+}*/
+
+.h5p-iframe, 
+.h5p-iframe p, 
+.h5p-question-check-answer {
+	font-family:"Aspekta",sans-serif!important;
+}
+
+.h5p-iframe,
+.h5p-content,
+.h5p-question{
+	background:#242424;
+}
+
+.h5p-alternative-inner,
+.ui-draggable.ui-draggable-handle {
+	color:#242424
+}
+
+.h5p-question-introduction,
+.h5p-question-content{
+	color:#FFFFFF;
+}
+
+.h5p-multichoice .h5p-alternative-container{
+	background:rgba(0,0,0,0);
+	border:1px solid #FFFFFF;
+	border-radius:4px;
+}
+
+.h5p-alternative-inner,
+.h5p-multichoice .h5p-answer .h5p-alternative-container:before{
+	color:#FFFFFF;
+}
+
+.h5p-selected .h5p-alternative-inner,
+.h5p-selected .h5p-alternative-inner::before{
+	color:#242424;
+}
+
+.h5p-multichoice .h5p-answer:not([aria-disabled="true"]):hover .h5p-alternative-container {
+	color:#242424;
+}
